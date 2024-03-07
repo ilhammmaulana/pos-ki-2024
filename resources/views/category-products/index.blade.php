@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h1>Customers</h1>
-    <a href="{{ route('customers.create') }}" class="btn btn-primary">Create customer</a>
+    <h1>Category Products</h1>
+    <a href="{{ route('category-products.create') }}" class="btn btn-primary">Create category</a>
     @if(Session::get('success'))
     <p class="text-success text-bold">
         {{ Session::get('success') }}
@@ -14,19 +14,17 @@
             <tr>
                 <th scope="col">No</th>
                 <th scope="col">Name</th>
-                <th scope="col">Phone</th>
                 <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($customers as $customer)
+            @foreach ($categories as $category)
             <tr>
-                <th scope="row">{{ $customer->id }}</th>
-                <td>{{ $customer->name }}</td>
-                <td>{{ $customer->phone}}</td>
+                <th scope="row">{{ $category->id }}</th>
+                <td>{{ $category->name }}</td>
                 <td class="d-flex gap-2">
-                    <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-primary">Edit</a>
-                    <form action="{{ route('customers.destroy', $customer->id) }}" method="POST">
+                    <a href="{{ route('category-products.edit', $category->id) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ route('category-products.destroy', $category->id) }}" method="POST">
                         @method('DELETE')
                         @csrf
 
@@ -38,9 +36,9 @@
         </tbody>
     </table>
     <ul class="pagination">
-        @if($customers->currentPage() > 1)
+        @if($categories->currentPage() > 1)
         <li class="page-item">
-            <a class="page-link" href="{{ url('customers?page='.($customers->currentPage() - 1)) }}"
+            <a class="page-link" href="{{ url('categories?page='.($categories->currentPage() - 1)) }}"
                 tabindex="-1">Previous</a>
         </li>
         @else
@@ -49,21 +47,21 @@
         </li>
         @endif
 
-        @for($i = 0; $i < $customers->lastPage(); $i++)
-            @if($customers->currentPage() === $i + 1)
+        @for($i = 0; $i < $categories->lastPage(); $i++)
+            @if($categories->currentPage() === $i + 1)
             <li class="page-item active">
                 <a class="page-link">{{ $i + 1 }}</a>
             </li>
             @else
             <li class="page-item">
-                <a class="page-link" href="{{ url('customers?page='.($i + 1)) }}">{{ $i + 1 }}</a>
+                <a class="page-link" href="{{ url('categories?page='.($i + 1)) }}">{{ $i + 1 }}</a>
             </li>
             @endif
             @endfor
 
-            @if($customers->currentPage() < $customers->lastPage())
+            @if($categories->currentPage() < $categories->lastPage())
                 <li class="page-item">
-                    <a class="page-link" href="{{ url('customers?page='.($customers->currentPage() + 1)) }}">Next</a>
+                    <a class="page-link" href="{{ url('categories?page='.($categories->currentPage() + 1)) }}">Next</a>
                 </li>
                 @else
                 <li class="page-item disabled">

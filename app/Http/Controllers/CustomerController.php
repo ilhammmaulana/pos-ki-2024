@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('customers.create');
     }
 
     /**
@@ -31,7 +31,13 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:4|max:255',
+            'phone' => 'required',
+        ]);
+        $input = $request->only('name', 'phone');
+        Customer::create($input);
+        return to_route('customers.index')->with('success', 'Success create customer!');
     }
 
     /**
@@ -47,7 +53,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('customers.edit', [
+            'customer' => $customer
+        ]);
     }
 
     /**
@@ -55,7 +63,13 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:4|max:255',
+            'phone' => 'required',
+        ]);
+        $input = $request->only('name', 'phone');
+        $customer->update($input);
+        return to_route('customers.index')->with('success', 'Success update customer!');
     }
 
     /**
@@ -63,6 +77,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return to_route('customers.index')->with('success', 'Success delete customer!');
     }
 }

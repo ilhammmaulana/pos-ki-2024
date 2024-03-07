@@ -45,7 +45,7 @@
                                 <a class="nav-link" href="{{ route('customers.index') }}">Customers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Category Products</a>
+                                <a class="nav-link" href="{{ route('category-products.index') }}">Category Products</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">Products</a>
@@ -88,7 +88,7 @@
                 </div>
             </nav>
 
-            <main class="py-4">
+            <main class="py-4 container">
                 @yield('content')
             </main>
         </div>

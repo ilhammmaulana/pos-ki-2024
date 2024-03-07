@@ -12,7 +12,10 @@ class CategoryProductController extends Controller
      */
     public function index()
     {
-        //
+        $categorProducts = CategoryProduct::latest()->paginate(10);
+        return view('category-products.index', [
+            'categories' => $categorProducts
+        ]);
     }
 
     /**
@@ -20,7 +23,7 @@ class CategoryProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('category-products.create');
     }
 
     /**
@@ -28,7 +31,12 @@ class CategoryProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:1|max:255',
+        ]);
+        $input = $request->only('name');
+        CategoryProduct::create($input);
+        return to_route('category-products.index')->with('success', 'Success create category product!');
     }
 
     /**
@@ -36,7 +44,7 @@ class CategoryProductController extends Controller
      */
     public function show(CategoryProduct $categoryProduct)
     {
-        //
+
     }
 
     /**
@@ -44,7 +52,9 @@ class CategoryProductController extends Controller
      */
     public function edit(CategoryProduct $categoryProduct)
     {
-        //
+        return view('category-products.edit', [
+            'categoryProduct' => $categoryProduct
+        ]);
     }
 
     /**
@@ -52,7 +62,13 @@ class CategoryProductController extends Controller
      */
     public function update(Request $request, CategoryProduct $categoryProduct)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:1|max:255',
+        ]);
+        $input = $request->only('name');
+        $categoryProduct->update($input);
+        return to_route('category-products.index')->with('success', 'Success update category product!');
+
     }
 
     /**
@@ -60,6 +76,7 @@ class CategoryProductController extends Controller
      */
     public function destroy(CategoryProduct $categoryProduct)
     {
-        //
+        $categoryProduct->delete();
+        return to_route('category-products.index')->with('success', 'Success update category product!');
     }
 }
