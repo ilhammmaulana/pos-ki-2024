@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CustomerController;
-use App\Models\CategoryProduct;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +22,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('customers', CustomerController::class)->names('customers');
+    Route::resource('products', ProductController::class)->names('products');
     Route::resource('category-products', CategoryProductController::class)->names('category-products');
-
 });
 
 Route::fallback(function () {

@@ -48,7 +48,10 @@
                                 <a class="nav-link" href="{{ route('category-products.index') }}">Category Products</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Products</a>
+                                <a class="nav-link" href="{{ route('products.index') }}">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('products.index') }}">Transaction</a>
                             </li>
                             @endauth
 
