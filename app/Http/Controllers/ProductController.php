@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -66,8 +67,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $categories = CategoryProduct::latest()->get();
         return view('products.edit', [
-            'product' => $product
+            'product' => $product,
+            'categories' => $categories
         ]);
     }
 
@@ -78,9 +81,18 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|min:4|max:255',
-            'phone' => 'required',
+            'price_buy' => 'required',
+            'price_sell' => 'required',
+            'stock' => 'required|numeric',
+            'image' => 'image|mimes:jpeg,jpg,png|max:2048',
+            'category_product_id' => 'required'
         ]);
-        $input = $request->only('name', 'phone');
+        $input = $request->only('name', 'price_buy', 'price_sell', 'stock', 'category_product_id');
+        $image = $request->file('image');
+        if ($image) {
+            Storage::delete($product->image);
+            $input['image'] = $image->store('public/products');
+        }
         $product->update($input);
         return to_route('products.index')->with('success', 'Success update product!');
     }
@@ -90,6 +102,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        Storage::delete($product->image);
         $product->delete();
         return to_route('products.index')->with('success', 'Success delete product!');
 

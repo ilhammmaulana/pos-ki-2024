@@ -51,8 +51,11 @@
                                 <a class="nav-link" href="{{ route('products.index') }}">Products</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('products.index') }}">Transaction</a>
+                                <a class="nav-link" href="{{ route('transactions.index') }}">Transaction</a>
                             </li>
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" href="{{ route('reports.index') }}">Laporan</a>
+                            </li> --}}
                             @endauth
 
                             @guest

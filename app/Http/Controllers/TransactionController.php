@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TransactionController extends Controller
 {
@@ -12,7 +14,12 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transaction::latest()->paginate(10);
+        $customers = Customer::orderBy('name', 'asc')->get();
+        return view('transactions.index', [
+            'transactions' => $transactions,
+            'customers' => $customers
+        ]);
     }
 
     /**
@@ -28,7 +35,18 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'customer_id' => "required"
+        ]);
+        $input = $request->only('customer_id');
+        $input['created_by'] = auth()->user()->id;
+        $transaction = Transaction::create($input);
+        Session::put('transaction', [
+            'id' => $transaction->id,
+            'customer' => $transaction->customer,
+            'details' => []
+        ]);
+        return to_route('transactions.show', $transaction->id);
     }
 
     /**
@@ -36,7 +54,9 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        return view('transactions.show', [
+            'transaction' => $transaction
+        ]);
     }
 
     /**

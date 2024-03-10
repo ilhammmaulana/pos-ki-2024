@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('customers', CustomerController::class)->names('customers');
     Route::resource('products', ProductController::class)->names('products');
     Route::resource('category-products', CategoryProductController::class)->names('category-products');
+    Route::resource('transactions', TransactionController::class)->names('transactions');
+    Route::prefix('transactions')->group(function () {
+        Route::get('cart', [TransactionController::class, 'cart']);
+    });
 });
 
 Route::fallback(function () {

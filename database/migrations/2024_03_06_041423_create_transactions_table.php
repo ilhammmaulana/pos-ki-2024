@@ -12,11 +12,11 @@ return new class extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
-            $table->decimal('total_price', 13, 2);
-            $table->decimal('profit', 13, 2);
+            $table->foreignId('customer_id')->nullable()->constrained('customers')->cascadeOnDelete();
+            $table->decimal('total_price', 13, 2)->nullable();
+            $table->decimal('profit', 13, 2)->nullable();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
-            $table->enum('status', ['done', 'hold', 'cancel']);
+            $table->enum('status', ['done', 'hold', 'cancel'])->default('hold');
             $table->timestamps();
         });
     }
