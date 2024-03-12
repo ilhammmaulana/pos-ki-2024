@@ -30,6 +30,8 @@
                 <th scope="col">Customer</th>
                 <th scope="col">Total Price</th>
                 <th scope="col">Profit</th>
+                <th scope="col">Customer Money</th>
+                <th scope="col">Return Money</th>
                 <th scope="col">Created By</th>
                 <th scope="col">Status</th>
                 <th scope="col">Action</th>
@@ -40,18 +42,23 @@
             <tr>
                 <th scope="row">{{ $transaction->id }}</th>
                 <td>{{ $transaction->customer ? $transaction->customer->name : '(Guest)' }}</td>
-                <td>{{ $transaction->total_price }}</td>
-                <td>{{ $transaction->profit }}</td>
+                <td>{{ format_rupiah($transaction->total_price) }}</td>
+                <td>{{ format_rupiah($transaction->profit) }}</td>
+                <td>{{ format_rupiah($transaction->customer_money) }}</td>
+                <td>{{ format_rupiah($transaction->return_money) }}</td>
                 <td>{{ $transaction->user->name }}</td>
                 <td>{{ $transaction->status }}</td>
                 <td class="d-flex gap-2">
-                    <a href="{{ route('transactions.edit', $transaction->id) }}" class="btn btn-primary">Edit</a>
+                    @if($transaction->status !== 'done')
                     <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST">
                         @method('DELETE')
                         @csrf
 
                         <button class="btn btn-danger">Delete</button>
                     </form>
+                    @else
+                    <p class="text-success">Transaction Done</p>
+                    @endif
                 </td>
             </tr>
             @endforeach

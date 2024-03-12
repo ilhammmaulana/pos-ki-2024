@@ -84,6 +84,10 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        if ($transaction->status === 'done' && $transaction->status === 'hold   ') {
+            return to_route('transactions.index')->with('error', 'Transaction failed because status is done!');
+        }
+        $transaction->delete();
+        return to_route('transactions.index')->with('success', 'Success delete transaction!');
     }
 }

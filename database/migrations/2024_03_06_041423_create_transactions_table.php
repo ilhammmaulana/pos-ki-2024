@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->foreignId('customer_id')->nullable()->constrained('customers')->cascadeOnDelete();
             $table->decimal('total_price', 13, 2)->nullable();
             $table->decimal('profit', 13, 2)->nullable();
+            $table->decimal('return_money', 13, 2)->nullable();
+            $table->decimal('customer_money', 13, 2)->nullable();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->enum('status', ['done', 'hold', 'cancel'])->default('hold');
             $table->timestamps();
