@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -39,6 +40,9 @@ class TransactionController extends Controller
             'customer_id' => "required"
         ]);
         $input = $request->only('customer_id');
+        if ($input['customer_id'] == 'guest') {
+            $input['customer_id'] = null;
+        }
         $input['created_by'] = auth()->user()->id;
         $transaction = Transaction::create($input);
         Session::put('transaction', [
@@ -46,7 +50,7 @@ class TransactionController extends Controller
             'customer' => $transaction->customer,
             'details' => []
         ]);
-        return to_route('transactions.show', $transaction->id);
+        return to_route('cart.index')->with('success', 'Success create transaction, Select product in transaction !');
     }
 
     /**

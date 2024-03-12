@@ -39,7 +39,7 @@
             @foreach ($transactions as $transaction)
             <tr>
                 <th scope="row">{{ $transaction->id }}</th>
-                <td>{{ $transaction->customer->name }}</td>
+                <td>{{ $transaction->customer ? $transaction->customer->name : '(Guest)' }}</td>
                 <td>{{ $transaction->total_price }}</td>
                 <td>{{ $transaction->profit }}</td>
                 <td>{{ $transaction->user->name }}</td>

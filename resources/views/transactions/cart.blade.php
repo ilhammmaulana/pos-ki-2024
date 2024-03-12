@@ -2,9 +2,47 @@
 
 @section('content')
 <section>
-    Transaction : {{ $transaction->id }} <br>
-    Customer name : {{ $transaction->customer ? $transaction->customer->name : 'Guest' }}
-    <h4 class="fw-bold mt-2">Total Product :</h4>
+    @if(Session::get('success'))
+    <p class="text-success text-bold">
+        {{ Session::get('success') }}
+    </p>
+    @endif
+    @if(Session::get('error'))
+    <p class="text-danger text-bold">
+        {{ Session::get('error') }}
+    </p>
+    @endif
+    @foreach ($errors as $error)
+    <p class="text-danger text-bold">
+        {{ $error }}
+    </p>
+    @endforeach
+    <div class="row">
+        <div class="col-md-6">
+
+            Transaction : {{ $transaction['id'] }} <br>
+            Customer name : {{ $transaction['customer'] ? $transaction['customer']->name : 'Guest' }}
+            <h4 class="fw-bold mt-2">Total Product :</h4>
+        </div>
+
+        <div class="col-md-6 d-flex gap-2">
+            <form action="{{ route('cart.cancel') }}" method="POST">
+                @csrf
+                @method('POST')
+                <button type="submit" class="btn btn-success">Checkout</button>
+            </form>
+            <form action="{{ route('cart.cancel') }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Cancel the transactions</button>
+            </form>
+            <form action="{{ route('cart.clear') }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Clear cart</button>
+            </form>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -17,29 +55,55 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($transactions as $transaction)
+            @foreach ($transaction['details'] as $key => $detail)
             <tr>
-                <th scope="row">{{ $transaction->id }}</th>
-                <td>{{ $transaction->customer->name }}</td>
-                <td>{{ $transaction->total_price }}</td>
-                <td>{{ $transaction->profit }}</td>
-                <td>{{ $transaction->user->name }}</td>
-                <td>{{ $transaction->status }}</td>
-                <td class="d-flex gap-2">
-                    <a href="{{ route('transactions.edit', $transaction->id) }}" class="btn btn-primary">Edit</a>
-                    <form action="{{ route('transactions.destroy', $transaction->id) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
+                <th scope="row">{{ $detail['product']->id }}</th>
+                <td>
+                    <img width="75" src="{{ url($detail['product']->image) }}" alt="{{ $detail['product']->name }}">
+                </td>
+                <td>{{ $detail['product']->name }}</td>
+                <td>{{ format_rupiah($detail['total_price']) }}</td>
+                <form action="{{ route('cart.update') }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <td><input type="number" name="qty" class="form-control" value="{{ $detail['qty'] }}"></td>
+                    <td class="d-flex gap-2">
+                        <input type="hidden" name="index" value="{{ $key }}">
+                        <button type="submit" class="btn btn-success">Update QTY</button>
+                </form>
+                <form action="" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    <form action="">
+    <div class="row">
+        @foreach ($products as $product)
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{ url($product->image) }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $product->name }}</h5>
+                    <h6>{{ format_rupiah($product->price_sell) }}</h6>
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <div class="form-group mb-3">
+                            <label for="qty-{{ $product->id }}" class="mb-2">Jumlah barang</label>
+                            <input type="number" value="1" id="qty-{{ $product->id }}" class="form-control" name="qty">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            Tambahkan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endforeach
 
-    </form>
+    </div>
 </section>
 @endsection

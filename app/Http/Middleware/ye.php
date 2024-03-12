@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckCartSession
+class ye
 {
     /**
      * Handle an incoming request.
@@ -16,9 +15,6 @@ class CheckCartSession
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Session::exists('transaction')) {
-            return to_route('cart.index');
-        }
         return $next($request);
     }
 }
