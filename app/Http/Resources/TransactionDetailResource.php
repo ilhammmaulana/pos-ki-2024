@@ -18,7 +18,7 @@ class TransactionDetailResource extends JsonResource
             'id' => $this->id,
             'transaction_id' => $this->transaction_id,
             'product' => new ProductResource($this->product),
-            'total' => format_rupiah($this->total),
+            'total_price' => format_rupiah($this->total_price),
             'qty' => $this->qty,
             'created_at' => $this->created_at->format('Y-m-d H:m:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:m:s')
