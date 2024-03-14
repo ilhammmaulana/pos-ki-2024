@@ -32,7 +32,7 @@
 
                 <div class="form-group mb-2">
                     <label for="customer_money">Customer money</label>
-                    <input type="number" name="customer_money" id="customer_money" class="form-control">
+                    <input type="number" min="1" name="customer_money" id="customer_money" class="form-control">
                     @error('customer_money')
                     <p class="text-danger">{{ $message }}</p>
                     @enderror
@@ -117,7 +117,8 @@
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <div class="form-group mb-3">
                             <label for="qty-{{ $product->id }}" class="mb-2">Jumlah barang</label>
-                            <input type="number" value="1" id="qty-{{ $product->id }}" class="form-control" name="qty">
+                            <input type="number" min="1" value="1" id="qty-{{ $product->id }}" class="form-control"
+                                name="qty">
                         </div>
                         <button type="submit" class="btn btn-primary">
                             Tambahkan

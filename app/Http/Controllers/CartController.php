@@ -31,7 +31,7 @@ class CartController extends Controller
         $input = $request->only('product_id', 'qty');
         $transaction = Session::get('transaction');
         $product = Product::find($input['product_id']);
-        if ($input['qty'] >= $product->stock) {
+        if ($input['qty'] > $product->stock) {
             return to_route('cart.index')->with('error', 'Failed because there was insufficient product stock!');
         }
 
@@ -82,7 +82,7 @@ class CartController extends Controller
         $transaction = Session::get('transaction');
         $productId = $transaction['details'][(int) $input['index']]['product']->id;
         $product = Product::find($productId);
-        if ($input['qty'] >= $product->stock) {
+        if ($input['qty'] > $product->stock) {
             return to_route('cart.index')->with('error', 'Failed because there was insufficient product stock!');
         }
         $transaction['details'][(int) $input['index']]['product'] = $product;
@@ -126,6 +126,9 @@ class CartController extends Controller
                         return back()->with('error', "Stock barang $product->name tidak mencukupi");
                     }
 
+                    $product->stock = $product->stock - $detail['qty'];
+                    $product->save();
+
                     $priceNow = $product->price_sell * $detail['qty'];
                     $profit += ($product->price_sell - $product->price_buy) * $detail['qty'];
                     $total_price += $priceNow;
@@ -156,7 +159,6 @@ class CartController extends Controller
             DB::rollBack();
             return to_route('cart.index')->with('error', $e->getMessage());
         } catch (\Exception $e) {
-            dd('he');
             throw $e;
         }
     }

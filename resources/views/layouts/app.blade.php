@@ -53,9 +53,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('transactions.index') }}">Transaction</a>
                             </li>
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" href="{{ route('reports.index') }}">Laporan</a>
-                            </li> --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('reports.index') }}">Reports</a>
+                            </li>
                             @endauth
 
                             @guest
