@@ -16,13 +16,13 @@ class TransactionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'total' => $this->total,
-            'customer_id' => $this->customer_id,
-            'total' => format_rupiah($this->total),chr
-            'pay' => format_rupiah($this->pay),
-            'createdBy' => $this->createdBy,
-            'customer' => $this->customer,
-            'code_promo' => $this->code_promo,
+            'status' => $this->status,
+            'customer' => new CustomerResource($this->customer),
+            'total_price' => format_rupiah($this->total_price),
+            'customer_money' => format_rupiah($this->customer_money),
+            'return_money' => format_rupiah($this->return_money),
+            'details' => TransactionDetailResource::collection($this->details),
+            'created_by' => $this->created_by,
             'created_at' => $this->created_at->format('Y-m-d H:m:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:m:s')
         ];
