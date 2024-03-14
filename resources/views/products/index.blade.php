@@ -30,8 +30,8 @@
                     <img width="200" src="{{ url($product->image) }}" alt="{{ $product->name }}">
                 </td>
                 <td>{{ $product->name }}</td>
-                <td>{{ $product->price_buy }}</td>
-                <td>{{ $product->price_sell }}</td>
+                <td>{{ format_rupiah($product->price_buy) }}</td>
+                <td>{{ format_rupiah($product->price_sell) }}</td>
                 <td>{{ $product->stock }}</td>
                 <td>{{ $product->category->name }}</td>
                 <td class="d-flex gap-2">
@@ -45,6 +45,7 @@
                 </td>
             </tr>
             @endforeach
+
         </tbody>
     </table>
     <ul class="pagination">
