@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryProductController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\WEB\CartController;
+use App\Http\Controllers\WEB\CategoryProductController;
+use App\Http\Controllers\WEB\CustomerController;
+use App\Http\Controllers\WEB\ProductController;
+use App\Http\Controllers\WEB\ReportController;
+use App\Http\Controllers\WEB\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\WEB\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('customers', CustomerController::class)->names('customers');

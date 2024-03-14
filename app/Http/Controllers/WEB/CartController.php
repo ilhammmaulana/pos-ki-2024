@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\WEB;
 
 use App\Exceptions\InsufficientCustomerMoneyException;
 use App\Models\Product;
